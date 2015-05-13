@@ -6,8 +6,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 public class BottomDialog extends DialogFragment {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(0, R.style.MMTheme_DataSheet);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -15,18 +22,25 @@ public class BottomDialog extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_FRAME, 0);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = android.R.style.Animation_InputMethod;
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
-        getDialog().getWindow().setLayout(1080, 400);
         getDialog().setCanceledOnTouchOutside(true);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().post(new Runnable() {
+
+            @Override
+            public void run() {
+                WindowManager.LayoutParams lp = getDialog().getWindow().getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = 400;
+                getDialog().onWindowAttributesChanged(lp);
+            }
+        });
+    }
 }
