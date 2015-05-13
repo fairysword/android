@@ -27,20 +27,11 @@ public class BottomDialog extends DialogFragment {
         getDialog().getWindow().getAttributes().windowAnimations = android.R.style.Animation_InputMethod;
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         getDialog().setCanceledOnTouchOutside(true);
+
+        WindowManager.LayoutParams lp = getDialog().getWindow().getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 400;
+        getDialog().onWindowAttributesChanged(lp);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getView().post(new Runnable() {
-
-            @Override
-            public void run() {
-                WindowManager.LayoutParams lp = getDialog().getWindow().getAttributes();
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = 400;
-                getDialog().onWindowAttributesChanged(lp);
-            }
-        });
-    }
 }
